@@ -1,10 +1,10 @@
 import './App.css';
-import Carousel from './components/Carousel';
+import AxelorCarousel from './components/AxelorCarousel';
 
 function App() {
   return (
     <div className="App">
-      <Carousel/>
+      <AxelorCarousel/>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { Carousel } from 'react-responsive-carousel'
 
-export default class Carousel extends Component {
+export default class AxelorCarousel extends Component {
     constructor(props) {
         super(props)
       
@@ -57,14 +58,20 @@ export default class Carousel extends Component {
     render() {
         const pictureList = this.state.pictures.map(picture => {
             return(
-                picture && <img src={picture}/>
+                picture && <div><img src={picture}/></div>
             )
         })
 
         return (
             <div>
                 <h1>Carousel</h1>
-                {pictureList}
+                <Carousel
+                autoPlay={true}
+                dynamicHeight={false}
+                infiniteLoop={true}
+                width="50%">
+                    {pictureList}
+                </Carousel>
             </div>
         )
     }
