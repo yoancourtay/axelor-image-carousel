@@ -8,10 +8,17 @@ export default class AxelorCarousel extends Component {
         this.state = {
             pictures: [],
             axelorAppName: 'pizza-planet',
+            paramName: 'albumId',
+            
             mainDomain: 'com.axelor.photoalbum.db.Album',
             subDomain: 'com.axelor.photoalbum.db.Photo',
             subDomFieldName : 'photoList',
-            paramName: 'albumId'
+            
+            
+            domToSubDomField: [
+                {'com.axelor.photoalbum.db.Album': 'photoList'},
+                {'com.axelor.photoalbum.db.Photo': null}
+            ]
         }
         
         this.getPictures = this.getPictures.bind(this)
@@ -28,11 +35,13 @@ export default class AxelorCarousel extends Component {
                 json.data[0][this.state.subDomFieldName].forEach(subDomain => {                                       
                     fetch(`/${this.state.axelorAppName}/ws/rest/${this.state.subDomain}/${subDomain.id}/`, {method: 'GET'})
                     .then(response => response.json())
-                    .then(json => this.setState({
-                        pictures: [// Too fast for React ?
-                            ...this.state.pictures, 
+                    .then(json => this.setState(prevState => {
+                        return {
+                            pictures: [
+                            ...prevState.pictures, 
                             `/${this.state.axelorAppName}/ws/rest/com.axelor.meta.db.MetaFile/${json.data[0].picture.id}/content/download`
                         ]
+                        }
                     }))
                     .catch(err => console.error(err))
                 });
