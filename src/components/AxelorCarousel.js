@@ -16,8 +16,14 @@ export default class AxelorCarousel extends Component {
             
             
             domToSubDomField: [
-                {'com.axelor.photoalbum.db.Album': 'photoList'},
-                {'com.axelor.photoalbum.db.Photo': null}
+                {
+                    domain: 'com.axelor.photoalbum.db.Album',
+                    field: 'photoList'
+                },
+                {
+                    domain: 'com.axelor.photoalbum.db.Photo',
+                    field: null
+                }
             ]
         }
         
@@ -27,6 +33,12 @@ export default class AxelorCarousel extends Component {
     getPictures () {
         const params = new URLSearchParams(document.location.search)
         const id = params.get(this.state.paramName)
+        console.log(this.state.domToSubDomField.length)
+        
+        let cId = params.get(this.state.paramName)
+        this.state.domToSubDomField.forEach(group => {
+            
+        });
 
         if (id) {
             fetch(`/${this.state.axelorAppName}/ws/rest/${this.state.mainDomain}/${id}/`, {method: 'GET'})
@@ -62,16 +74,13 @@ export default class AxelorCarousel extends Component {
         })
 
         return (
-            <div>
-                <h1>Carousel</h1>
-                <Carousel
+            <Carousel
                 autoPlay={true}
                 dynamicHeight={false}
                 infiniteLoop={true}
                 width="50%">
                     {pictureList}
-                </Carousel>
-            </div>
+            </Carousel>
         )
     }
 }
