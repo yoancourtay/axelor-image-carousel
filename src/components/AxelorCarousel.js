@@ -22,7 +22,7 @@ export default class AxelorCarousel extends Component {
                 },
                 {
                     domain: 'com.axelor.photoalbum.db.Photo',
-                    field: null
+                    field: 'picture'
                 }
             ]
         }
@@ -34,20 +34,6 @@ export default class AxelorCarousel extends Component {
         const params = new URLSearchParams(document.location.search)
         this.setState({id: params.get(this.state.paramName)}, async () => {
             if (this.state.id) {
-                // this.state.domToSubDomField.forEach(group => {
-                //     //Go through domains
-                //     fetch(`/${this.state.axelorAppName}/ws/rest/${group.domain}/${this.state.id}/`, {method: 'GET'})
-                //     .then(response => response.json())
-                //     .then(json => {
-                //         if (group.field) {
-                //             this.setState({id: json.data[0][group.field].id})
-                //             console.log("Still more fields")
-                //         } else {
-                //             console.log("No more fields")
-                //         }                        
-                //     })
-                //     .catch(err => console.error(err))
-                // })
 
                 for (const group of this.state.domToSubDomField) {
                     //Go through domains
@@ -56,10 +42,15 @@ export default class AxelorCarousel extends Component {
                     .then(response => response.json())
                     .then(json => {
                         if (group.field) {
-                            this.setState({id: json.data[0][group.field].id})
                             console.log("Still more fields")
+                            console.log("Length: " + json.data[0][group.field].length)
+                            //TODO if length, go into for(to) mode
+                            console.log("Previous ID: " + this.state.id)
+                            this.setState({id: json.data[0][group.field].id}, () => console.log("New ID: " + this.state.id))
+                            console.log(json.data[0][group.field])
                         } else {
                             console.log("No more fields")
+                            console.log(json.data[0])
                         }                        
                     })
                     .catch(err => console.error(err))
